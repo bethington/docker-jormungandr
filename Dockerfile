@@ -22,6 +22,8 @@ RUN groupadd -g ${GROUP_ID} jormungandr \
 RUN apt-get update
 RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
+RUN apt-get -y install build-essential \
+ && apt-get clean
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && rustup install stable \
