@@ -39,7 +39,6 @@ RUN cd $HOME \
 
 # Install and make the executables available in the PATH and Make scripts exectuable
 RUN cd jormungandr \
- && git submodule update --init --recursive \
  && cargo install --path jormungandr \
  && cargo install --path jcli \
  && chmod +x ./scripts/bootstrap
