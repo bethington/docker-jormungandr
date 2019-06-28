@@ -24,7 +24,8 @@ RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
- && ENV PATH="${HOME}/.cargo/bin:${PATH}"
+ && PATH="${HOME}/.cargo/bin:${PATH}" \
+ && export PATH
  
 RUN rustup install stable \
  && rustup default stable
