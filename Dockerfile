@@ -23,9 +23,9 @@ RUN apt-get update
 RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
 
-RUN curl https://sh.rustup.rs -sSf | sh \
- && rustup install stable \
- && rustup default stable
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
+ && rustup install -y stable \
+ && rustup default -y stable
    
 ARG VERSION
 ENV VERSION ${VERSION}
