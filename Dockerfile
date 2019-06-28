@@ -25,6 +25,8 @@ RUN apt-get -y install git nano curl wget net-tools \
 RUN apt-get -y install build-essential libssl-dev pkg-config \
  && apt-get clean
 
+WORKDIR $HOME
+
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && rustup install stable \
  && rustup default stable
@@ -34,8 +36,7 @@ ENV PATH=/usr/local/cargo/bin:$PATH
 ARG VERSION
 ENV VERSION ${VERSION}
 
-WORKDIR $HOME \
- && git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
+RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
 
 # Install and make the executables available in the PATH and Make scripts exectuable
 WORKDIR $HOME/jormungandr
