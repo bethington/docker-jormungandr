@@ -38,7 +38,7 @@ RUN cd $HOME \
  && git clone https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
 
 # Install and make the executables available in the PATH and Make scripts exectuable
-RUN cd jormungandr
+RUN cd $HOME/jormungandr
 RUN pwd
 RUN cargo install --path jormungandr \
  && cargo install --path jcli \
