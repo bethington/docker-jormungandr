@@ -35,12 +35,12 @@ ARG VERSION
 ENV VERSION ${VERSION}
 
 RUN cd $HOME \
- && git clone https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
- && cd jormungandr \
- && git submodule update --init --recursive
+ && git clone https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
 
 # Install and make the executables available in the PATH and Make scripts exectuable
-RUN cargo install --path jormungandr \
+RUN cd jormungandr \
+ && git submodule update --init --recursive \
+ && cargo install --path jormungandr \
  && cargo install --path jcli \
  && chmod +x ./scripts/bootstrap
  
