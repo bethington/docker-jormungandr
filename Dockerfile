@@ -24,7 +24,9 @@ RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
- && rustup install stable \
+ && ENV PATH="${HOME}/.cargo/bin:${PATH}"
+ 
+RUN rustup install stable \
  && rustup default stable
    
 ARG VERSION
@@ -33,8 +35,7 @@ ENV VERSION ${VERSION}
 RUN cd $HOME \
  && git clone https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
  && cd jormungandr \
- && git submodule update --init --recursive \
- && ENV PATH="${HOME}/.cargo/bin:${PATH}"
+ && git submodule update --init --recursive
 
 # Install and make the executables available in the PATH and Make scripts exectuable
 RUN cargo install --path jormungandr \
