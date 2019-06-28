@@ -34,8 +34,8 @@ ENV PATH=/usr/local/cargo/bin:$PATH
 ARG VERSION
 ENV VERSION ${VERSION}
 
-RUN cd $HOME \
- && git clone https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
+WORKDIR $HOME \
+ && git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
 
 # Install and make the executables available in the PATH and Make scripts exectuable
 WORKDIR $HOME/jormungandr
