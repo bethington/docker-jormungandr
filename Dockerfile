@@ -9,9 +9,6 @@ ARG USER_ID
 ARG GROUP_ID
 
 ENV HOME /jormungandr
-ENV RUSTUP_HOME=/usr/local/rustup
-ENV CARGO_HOME=/usr/local/cargo
-ENV PATH=/usr/local/cargo/bin:$PATH
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
@@ -29,6 +26,8 @@ RUN apt-get -y install git nano curl wget net-tools \
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && rustup install stable \
  && rustup default stable
+ 
+ENV PATH=/usr/local/cargo/bin:$PATH
    
 ARG VERSION
 ENV VERSION ${VERSION}
