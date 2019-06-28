@@ -22,7 +22,7 @@ RUN groupadd -g ${GROUP_ID} jormungandr \
 RUN apt-get update
 RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
-RUN apt-get -y install build-essential \
+RUN apt-get -y install build-essential libssl-dev pkg-config \
  && apt-get clean
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
@@ -43,6 +43,8 @@ RUN cd $HOME \
 RUN cargo install --path jormungandr \
  && cargo install --path jcli \
  && chmod +x ./scripts/bootstrap
+ 
+ENV PATH=$HOME/jormungandr/scripts:$PATH
 
 VOLUME $HOME
 
