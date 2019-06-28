@@ -8,10 +8,10 @@ MAINTAINER Ben Ethington <benaminde@gmail.com>
 ARG USER_ID
 ARG GROUP_ID
 
-ENV HOME /jormungandr \
-    RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/cargo/bin:$PATH
+ENV HOME /jormungandr
+ENV RUSTUP_HOME=/usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo
+ENV PATH=/usr/local/cargo/bin:$PATH
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
