@@ -8,7 +8,10 @@ MAINTAINER Ben Ethington <benaminde@gmail.com>
 ARG USER_ID
 ARG GROUP_ID
 
-ENV HOME /jormungandr
+ENV HOME /jormungandr \
+    RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
@@ -23,10 +26,7 @@ RUN apt-get update
 RUN apt-get -y install git nano curl wget net-tools \
  && apt-get clean
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
- && PATH="${HOME}/.cargo/bin:${PATH}" \
- && export PATH
- 
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 RUN rustup install stable \
  && rustup default stable
    
