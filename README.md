@@ -1,7 +1,7 @@
 # docker-jormungandr
 Rust implementation of a Cardano full node
 
-## jormungandr --help
+## /usr/local/cargo/bin/jormungandr --help
 ```
 jormungandr 0.2.3
 Nicolas Di Prima <nicolas.diprima@iohk.io>, Vincent Hanquez <vincent.hanquez@iohk.io>, Eelco Dolstra <edolstra@gmail.com>, Mikhail Zabaluev
@@ -39,7 +39,7 @@ OPTIONS:
         --secret <secret>...                   Set the secret node config (in YAML format). Can be given multiple times.
         --storage <storage>                    Path to the blockchain pool storage directory
 ```
-## jcli --help
+## /usr/local/cargo/bin/jcli --help
 ```
 jcli 0.2.3
 Nicolas Di Prima <nicolas.diprima@iohk.io>, Vincent Hanquez <vincent.hanquez@iohk.io>, Eelco Dolstra <edolstra@gmail.com>, Mikhail Zabaluev
