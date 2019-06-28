@@ -2,6 +2,7 @@
 Rust implementation of a Cardano full node
 
 ## jormungandr --help
+```
 jormungandr 0.2.3
 Nicolas Di Prima <nicolas.diprima@iohk.io>, Vincent Hanquez <vincent.hanquez@iohk.io>, Eelco Dolstra <edolstra@gmail.com>, Mikhail Zabaluev
 <mikhail.zabaluev@gmail.com>, Alexander Vershilov <alexander.vershilov@gmail.com>
@@ -37,3 +38,30 @@ OPTIONS:
                                                socket at this address.
         --secret <secret>...                   Set the secret node config (in YAML format). Can be given multiple times.
         --storage <storage>                    Path to the blockchain pool storage directory
+```
+## jcli --help
+```
+jcli 0.2.3
+Nicolas Di Prima <nicolas.diprima@iohk.io>, Vincent Hanquez <vincent.hanquez@iohk.io>, Eelco Dolstra <edolstra@gmail.com>, Mikhail Zabaluev
+<mikhail.zabaluev@gmail.com>, Alexander Vershilov <alexander.vershilov@gmail.com>
+Jormungandr CLI toolkit
+
+USAGE:
+    jcli <SUBCOMMAND>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+SUBCOMMANDS:
+    address            Address tooling and helper
+    auto-completion    Auto completion
+    certificate        Certificate generation tool
+    debug              Debug tools for developers
+    genesis            Block tooling and helper
+    help               Prints this message or the help of the given subcommand(s)
+    key                Key Generation
+    rest               Send request to node REST API
+    transaction        Build and view offline transaction
+    utils              Utilities that perform specialized tasks
+```
