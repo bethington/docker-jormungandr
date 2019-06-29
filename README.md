@@ -1,6 +1,15 @@
 # docker-jormungandr
 Rust implementation of a Cardano full node
 
+## To connect using CLI REST:
+```
+jcli rest v0 <CMD> --host "http://127.0.0.1:8443/api"
+```
+For example:
+```
+jcli rest v0 node stats get -h "http://127.0.0.1:8443/api"
+```
+
 ## /usr/local/cargo/bin/jormungandr --help
 ```
 jormungandr 0.2.3
