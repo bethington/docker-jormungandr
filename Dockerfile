@@ -52,4 +52,4 @@ EXPOSE 8299 8443
 
 WORKDIR $HOME
 
-CMD bash
+CMD jormungandr --genesis-block ./block-0.bin --config ./config.yaml --secret ./pool-secret1.yaml
