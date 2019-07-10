@@ -6,7 +6,7 @@ FROM ubuntu:18.04
 MAINTAINER Ben Ethington <benaminde@gmail.com>
 
 ARG USER_ID
-ARG GROUP_ID=
+ARG GROUP_ID
 
 ENV HOME /jormungandr
 
