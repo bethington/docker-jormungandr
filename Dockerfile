@@ -27,11 +27,12 @@ RUN apt-get -y install build-essential libssl-dev pkg-config \
 
 WORKDIR $HOME
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
- && rustup install stable \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+ENV PATH=$HOME/.cargo/bin:$PATH
+
+RUN rustup install stable \
  && rustup default stable
- 
-ENV PATH=/usr/local/cargo/bin:$PATH
    
 ARG VERSION
 ENV VERSION ${VERSION}
@@ -46,10 +47,13 @@ RUN cargo install --path jormungandr \
  
 ENV PATH=$HOME/jormungandr/scripts:$PATH
 
-VOLUME $HOME
+WORKDIR $HOME\data
+
+RUN bootstrap > bootstrap.txt \
+ && cat bootstrap.txt
+
+VOLUME $HOME\data
 
 EXPOSE 8299 8443
-
-WORKDIR $HOME
 
 CMD jormungandr --genesis-block ./block-0.bin --config ./config.yaml --secret ./pool-secret1.yaml
