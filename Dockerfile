@@ -47,12 +47,12 @@ RUN cargo install --path jormungandr \
  
 ENV PATH=$HOME/jormungandr/scripts:$PATH
 
-WORKDIR $HOME\data
+WORKDIR $HOME/data
 
 RUN bootstrap > bootstrap.txt \
  && cat bootstrap.txt
 
-VOLUME $HOME\data
+VOLUME $HOME/data
 
 EXPOSE 8299 8443
 
