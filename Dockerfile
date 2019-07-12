@@ -27,6 +27,7 @@ RUN apt-get -y install build-essential libssl-dev pkg-config \
 
 WORKDIR $HOME
 
+# Install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 ENV PATH=$HOME/.cargo/bin:$PATH
@@ -37,7 +38,7 @@ RUN rustup install stable \
 ARG VERSION
 ENV VERSION ${VERSION}
 
-# Install and make the executables available in the PATH and Make scripts exectuable
+# Build the Jormungandr executables and make them available by setting the PATH and them make scripts exectuable
 RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
  && cd jormungandr \
  && cargo install --path jormungandr \
@@ -47,7 +48,8 @@ RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungand
  
 ENV PATH=$HOME/jormungandr/scripts:$PATH
  
-VOLUME $HOME
+# Final setup of Docker container
+VOLUME $HOME/data
 
 EXPOSE 8299 8443
 
