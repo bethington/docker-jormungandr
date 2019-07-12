@@ -37,23 +37,20 @@ RUN rustup install stable \
 ARG VERSION
 ENV VERSION ${VERSION}
 
-RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch
-
 # Install and make the executables available in the PATH and Make scripts exectuable
-WORKDIR $HOME/jormungandr
-RUN cargo install --path jormungandr \
+RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
+ && cd jormungandr \
+ && cargo install --path jormungandr \
  && cargo install --path jcli \
- && chmod +x ./scripts/bootstrap
+ && chmod +x ./scripts/bootstrap \
+ && cd ..
  
 ENV PATH=$HOME/jormungandr/scripts:$PATH
-
-WORKDIR $HOME/data
-
-VOLUME $HOME/data
-
-RUN bootstrap > bootstrap.txt \
- && cat bootstrap.txt
+ 
+VOLUME $HOME
 
 EXPOSE 8299 8443
 
-CMD jormungandr --genesis-block ./data/block-0.bin --config ./data/config.yaml --secret ./data/pool-secret1.yaml
+WORKDIR $HOME
+
+CMD start.sh
