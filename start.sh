@@ -1,5 +1,5 @@
 #!/bin/bash
-HOST_IP="$(dig +short jormungandr)"
+HOST_IP="$(getent hosts jormungandr | awk '{ print $1 }')"
 cd $HOME/data
 bootstrap > bootstrap.txt
 cat bootstrap.txt
