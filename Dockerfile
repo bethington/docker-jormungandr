@@ -49,13 +49,12 @@ RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungand
 ENV PATH=$HOME/jormungandr/scripts:$PATH
  
 # Final setup of Docker container
-COPY start.sh start.sh
-RUN chmod +x start.sh
-
 VOLUME $HOME/data
 
 EXPOSE 8299 8443
 
 WORKDIR $HOME
+COPY start.sh start.sh
+RUN chmod +x start.sh
 
 CMD start.sh
