@@ -49,11 +49,11 @@ ENV PATH=$HOME/jormungandr/scripts:$PATH
 
 WORKDIR $HOME/data
 
+VOLUME $HOME/data
+
 RUN bootstrap > bootstrap.txt \
  && cat bootstrap.txt
 
-VOLUME $HOME/data
-
 EXPOSE 8299 8443
 
-CMD jormungandr --genesis-block ./block-0.bin --config ./config.yaml --secret ./pool-secret1.yaml
+CMD jormungandr --genesis-block ./data/block-0.bin --config ./data/config.yaml --secret ./data/pool-secret1.yaml
