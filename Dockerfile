@@ -1,7 +1,7 @@
 # Run to build docker image:
-#   docker build --build-arg VERSION=v0.2.3 --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 -t bethington/jormungandr:v0.2.3 .
+#   docker build --build-arg VERSION=v0.2.3 --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 -t bethington/jormungandr:v0.2.4 .
 # Must use jormungandr as the container name like so:
-#   docker run -it --name jormungandr --hostname jormungandr -v ./data:/jormungandr/data bethington/jormungandr:v0.2.3
+#   docker run -it --name jormungandr --hostname jormungandr -v ./data:/jormungandr/data -p 8443:8443 -p 8299:8299 bethington/jormungandr:v0.2.4
 FROM ubuntu:18.04
 MAINTAINER Ben Ethington <benaminde@gmail.com>
 
