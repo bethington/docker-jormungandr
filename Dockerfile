@@ -28,7 +28,7 @@ RUN apt-get -y install build-essential libssl-dev pkg-config \
 WORKDIR $HOME
 
 # Install Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 ENV PATH=$HOME/.cargo/bin:$PATH
 
