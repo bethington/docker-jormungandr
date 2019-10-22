@@ -40,7 +40,8 @@ ENV VERSION ${VERSION}
 
 # Build the Jormungandr executables and make them available by setting the PATH and them make scripts exectuable
 RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
- && cd jormungandr
+ && cd jormungandr \
+ && ls
 RUN cargo install --verbose --path jormungandr
 RUN cargo install --verbose --path jcli \
  && chmod +x ./scripts/bootstrap \
