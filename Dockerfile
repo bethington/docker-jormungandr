@@ -2,60 +2,68 @@
 #   docker build --build-arg VERSION=v0.2.3 --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 -t bethington/jormungandr:v0.2.4 .
 # Must use jormungandr as the container name like so:
 #   docker run -it --name jormungandr --hostname jormungandr -v ./data:/jormungandr/data -p 8443:8443 -p 8299:8299 bethington/jormungandr:v0.2.4
-FROM ubuntu:18.04
+FROM ubuntu:cosmic
 MAINTAINER Ben Ethington <benaminde@gmail.com>
+LABEL description="Jormungandr a Cardano node implementation"
 
-ARG USER_ID
-ARG GROUP_ID
+ARG PREFIX=/app
+ENV ENV_PREFIX=${PREFIX}
+ARG REST_PORT=8448
+ARG BUILD=false
+ENV ENV_BUILD=${BUILD}
+ARG VER=v0.7.0
+ENV ENV_VER=${VER}
 
-ENV HOME /jormungandr
+# prepare the environment
+RUN apt-get update && \
+    apt-get install -y git curl nano && \
+    mkdir -p ${ENV_PREFIX} && \
+    mkdir -p ${ENV_PREFIX}/src && \
+    mkdir -p ${ENV_PREFIX}/bin && \
+    cd ${ENV_PREFIX} && \
+    git clone --recurse-submodules https://github.com/input-output-hk/jormungandr src && \
+    cd src && git checkout ${ENV_VER} && \
+    cp scripts/bootstrap scripts/faucet-send-money.shtempl scripts/faucet-send-certificate.shtempl \
+    scripts/create-account-and-delegate.shtempl scripts/jcli-helpers ${ENV_PREFIX}/bin 
 
-# add user with specified (or default) user/group ids
-ENV USER_ID ${USER_ID:-1000}
-ENV GROUP_ID ${GROUP_ID:-1000}
+# install the node and jcli from binary
+RUN if [ "${ENV_BUILD}" = "false" ]; then \
+    echo "[INFO] - you have selected to install binaries" && \
+    cd ${ENV_PREFIX}/bin && \
+    curl -s -O -L https://github.com/input-output-hk/jormungandr/releases/download/${ENV_VER}/jormungandr-${ENV_VER}-x86_64-unknown-linux-gnu.tar.gz && \
+    tar xzf jormungandr-${ENV_VER}-x86_64-unknown-linux-gnu.tar.gz && rm jormungandr-${ENV_VER}-x86_64-unknown-linux-gnu.tar.gz ; fi 
 
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -g ${GROUP_ID} jormungandr \
-	&& useradd -u ${USER_ID} -g jormungandr -s /bin/bash -m -d $HOME jormungandr
+# install the node and jcli from source
+RUN if [ "${ENV_BUILD}" = "true" ]; then \
+    echo "[INFO] - you have selected to build and install from source" && \
+    apt-get install -y build-essential pkg-config libssl-dev && \
+    bash -c "curl https://sh.rustup.rs -sSf | bash -s -- -y" && \
+    export PATH=$HOME/.cargo/bin:$PATH && \
+    rustup install stable && \
+    rustup default stable && \
+    cd ${ENV_PREFIX}/src && \
+    git submodule update --init --recursive && \
+    cargo build --release && \
+    cargo install --force --path jormungandr && \
+    cargo install --force --path jcli && \
+    cp $HOME/.cargo/bin/jormungandr $HOME/.cargo/bin/jcli ${ENV_PREFIX}/bin && \
+    rm -rf $HOME/.cargo $HOME/.rustup ; fi
 
-# Install necessary tools and libraries
-RUN apt-get update
-RUN apt-get -y install git nano curl wget net-tools \
- && apt-get clean
-RUN apt-get -y install build-essential libssl-dev pkg-config \
- && apt-get clean
+# cleanup
+RUN rm -rf ${ENV_PREFIX}/src && \
+    RM_ME=`apt-mark showauto` && \
+    apt-get remove --purge --auto-remove -y git curl build-essential pkg-config libssl-dev ${RM_ME} && \
+    apt-get install -y --no-install-recommends libssl1.1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-WORKDIR $HOME
+ENV PATH=${ENV_PREFIX}/bin:${PATH}
+WORKDIR ${ENV_PREFIX}/bin
 
-# Install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN mkdir -p ${ENV_PREFIX}/cfg && \
+    mkdir -p ${ENV_PREFIX}/secret && \
+    sh ./bootstrap -p ${REST_PORT} -x -c ${ENV_PREFIX}/cfg -k ${ENV_PREFIX}/secret
 
-ENV PATH=$HOME/.cargo/bin:$PATH
+EXPOSE ${REST_PORT}
 
-RUN rustup install stable \
- && rustup default stable
-   
-ARG VERSION
-ENV VERSION ${VERSION}
-
-# Build the Jormungandr executables and make them available by setting the PATH and them make scripts exectuable
-RUN git clone --recurse-submodules https://github.com/input-output-hk/jormungandr --branch ${VERSION} --single-branch \
- && cd jormungandr \
- && ls
-RUN cargo install --verbose --path jormungandr
-RUN cargo install --verbose --path jcli \
- && chmod +x ./scripts/bootstrap \
- && cd ..
- 
-ENV PATH=$HOME/jormungandr/scripts:$PATH
- 
-# Final setup of Docker container
-VOLUME $HOME/data
-
-EXPOSE 8299 8443
-
-WORKDIR $HOME
-COPY start.sh start.sh
-RUN chmod +x start.sh
-
-CMD ./start.sh
+CMD [ "sh", "startup_script.sh" ]
