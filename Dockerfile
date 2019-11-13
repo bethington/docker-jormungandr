@@ -1,7 +1,7 @@
 # Run to build docker image:
-#   docker build --build-arg VERSION=v0.2.3 --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 -t bethington/jormungandr:v0.2.4 .
+#   docker build -t jormungandr-node:0.7.0 --build-arg PREFIX=/app --build-arg BUILD=true --build-arg VER=v0.7.0 .
 # Must use jormungandr as the container name like so:
-#   docker run -it --name jormungandr --hostname jormungandr -v ./data:/jormungandr/data -p 8443:8443 -p 8299:8299 bethington/jormungandr:v0.2.4
+#   docker run -it --name jormungandr --hostname jormungandr -v ./data:/jormungandr/data -p 8443:8443 -p 8299:8299 bethington/jormungandr:v0.7.0
 FROM ubuntu:cosmic
 MAINTAINER Ben Ethington <benaminde@gmail.com>
 LABEL description="Jormungandr a Cardano node implementation"
