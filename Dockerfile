@@ -60,10 +60,6 @@ RUN rm -rf ${ENV_PREFIX}/src && \
 ENV PATH=${ENV_PREFIX}/bin:${PATH}
 WORKDIR ${ENV_PREFIX}/bin
 
-RUN mkdir -p ${ENV_PREFIX}/cfg && \
-    mkdir -p ${ENV_PREFIX}/secret && \
-    sh ./bootstrap -p ${REST_PORT} -x -c ${ENV_PREFIX}/cfg -k ${ENV_PREFIX}/secret
-
 EXPOSE ${REST_PORT}
 
-CMD [ "sh", "startup_script.sh" ]
+# CMD [ "sh", "startup_script.sh" ]
