@@ -62,4 +62,7 @@ WORKDIR ${ENV_PREFIX}/bin
 
 EXPOSE ${REST_PORT}
 
+COPY config.yaml ./
+
 # CMD [ "sh", "startup_script.sh" ]
+CMD ./jormungandr --config config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770
