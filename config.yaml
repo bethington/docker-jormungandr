@@ -6,6 +6,7 @@
   },
   "storage": "/app/bin/data",
   "p2p": {
+    "public_address": "68.110.90.111",
     "topics_of_interest": {
       "blocks": "normal",
       "messages": "low"
@@ -42,6 +43,6 @@
     ]
   },
   "rest": {
-    "listen": "127.0.0.1:8443"
+    "listen": "10.0.0.8:8443"
   }
 }
