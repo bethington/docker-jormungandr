@@ -65,4 +65,4 @@ EXPOSE ${REST_PORT}
 COPY config.yaml ./
 
 # CMD [ "sh", "startup_script.sh" ]
-CMD ./jormungandr --config config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770
+CMD ./jormungandr --config config.yaml --genesis-block-hash 0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1
