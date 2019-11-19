@@ -6,7 +6,7 @@
   },
   "storage": "/app/bin/data",
   "p2p": {
-    "public_address": "68.110.90.111",
+    "public_address": "/ip4/68.110.90.111/tcp/3000",
     "topics_of_interest": {
       "blocks": "normal",
       "messages": "low"
