@@ -4,6 +4,7 @@
     "level": "info",
     "output": "stderr"
   },
+  "storage": "/app/bin/data",
   "p2p": {
     "topics_of_interest": {
       "blocks": "normal",
@@ -41,6 +42,6 @@
     ]
   },
   "rest": {
-    "listen": "127.0.0.1:3100"
+    "listen": "127.0.0.1:8443"
   }
 }
