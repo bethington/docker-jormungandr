@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+
+# Cardano Jormungandr rust node
+  jormungandr:
+    hostname: jormungandr
+    container_name: jormungandr
+    restart: always
+    image: bethington/jormungandr:v0.7.0
+    volumes:
+      - ~/docker/jormungandr/.node_sec:/app/bin/.node_sec
+      - ~/docker/jormungandr/data:/app/bin/data
+    ports:
+      - 3000:3000
+      - 3100:3100
+    environment:
+      - TZ=${TZ}
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=jormungandr"
+      - "traefik.frontend.rule=Host:jormungandr.${DOMAINNAME}"
+      - "traefik.port=3100"
+      - "traefik.protocol=http"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
